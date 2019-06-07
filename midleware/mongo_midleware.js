@@ -4,10 +4,24 @@ var Schema = mongoose.Schema;
 /*var fs = require('fs');
 var imgPath = '/home/wanabe/Escritorio/descarga.jpeg';*/
 var imageModel = require('../models/images_model.js');
+var defaultModel = require('../models/default.js');
 
-
+/**
+ * Permite salvar una imagen proveniente de un body parseado de una peticion POST
+ * con el siguiente formato
+{
+	"imageData":[],
+	"collectionName":"",
+	"imageType":"image/png",
+	"metadata":{
+		"name":"imagen1",
+		"size":"2987kb",
+		"type":"jpg"...
+}
+ * 
+ */
 exports.insertDocumentChunks = function(obj) {
-   
+    var resp = defaultModel;
     var A = mongoose.model(obj.collectionName, imageModel);
     var a = new A;
     a.img.data = obj.imageData
@@ -21,11 +35,11 @@ exports.insertDocumentChunks = function(obj) {
     db.once('open', function() {
         console.log("conection !") 
         a.save(function (err, a) {
-            if (err) throw err;
-            console.error('saved img to mongo');
+            if (err) {resp.error = err};
+            resp.msg =  "image saved!"
         });
         
     });
-
+return resp;
     
 } 

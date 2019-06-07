@@ -29,12 +29,21 @@ app.post('/mgoup/v1/uploadImg', (req, res) => {
     });
   }
  //save in db req.body.[..]
-    midleware.insertDocumentChunks(req.body)
- return res.status(201).send({
-   success: 'true',
-   message: 'todo added successfully',
-    "info": req.body
- })
+    var resp = midleware.insertDocumentChunks(req.body)
+    if (resp.error){
+      return res.status(500).send({
+        success: 'false',
+        message: 'an error ',
+        info : resp.error
+      })
+    }else{
+      return res.status(201).send({
+        success: 'true',
+        message: 'process complete!',
+        info: resp.msg
+      })
+    }
+ 
 });
 
 
