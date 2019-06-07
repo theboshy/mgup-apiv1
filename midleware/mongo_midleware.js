@@ -17,6 +17,7 @@ var defaultModel = require('../models/default.js');
 		"name":"imagen1",
 		"size":"2987kb",
 		"type":"jpg"...
+    }
 }
  * 
  */
