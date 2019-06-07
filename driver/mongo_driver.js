@@ -1,10 +1,12 @@
-const MongoClient = require('mongodb').MongoClient;
 
-exports.mongoCon = function() {
-    var dataBase = MongoClient.connect("mongodb://localhost:27017/images_test", function (err, db) {
-        if(err) {console.log("error");throw err};
-        return db;         
-    });
-    return dataBase;
-}
+var mongoose = require('mongoose');
+module.exports = {
+    mgoCon: function () {
+        mongoose.connect('mongodb://localhost/images_test', {useNewUrlParser: true});
+        var db = mongoose.connection;
+        return db;
+    
+    },
+
+  };
 
