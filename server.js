@@ -16,6 +16,9 @@ app.get('/mgoup/v1/ping', (req, res) => {
   })
 });
 
+/**
+ * endpoint para gaurdar imagenes en la abse de datos
+ */
 app.post('/mgoup/v1/uploadImg', (req, res) => {
   if(!req.body.imageData) {
     return res.status(400).send({
