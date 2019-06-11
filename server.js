@@ -1,12 +1,47 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import midleware from './midleware/mongo_midleware.js';
+const jwt=require('jsonwebtoken');
+const key=require("./config/key");
 
 const app = express();
 
-//parsear datos codificados en data
+//midlewares
+//<--parsear datos codificados en data
 app.use(bodyParser.json());
+//-->
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(function(req,res,next){
+  try{
+  const token = req.headers.authorization.split(" ")[1]
+  jwt.verify(token, key.tokenKey, function (err, payload) {
+      //console.log(payload)
+      if (payload) {
+        //alguna funcion de logue extra(?)
+          next()
+      } else {
+         next()
+      }
+  })
+}catch(e){
+  next()
+}
+})
+
+//endpoints
+app.post('/mgoup/v1/signin',function(req,res){
+  if(true){ //autenticacion
+    var token=jwt.sign({/*payload json*/},key.tokenKey);
+    res.status(200).json({
+      'login':'correct login',
+      token
+    })
+  }else{
+    res.status(400).json({message:'Invalid autentication'});
+  }
+
+})
+
 
 app.get('/mgoup/v1/ping', (req, res) => {
   res.status(200).send({
@@ -17,7 +52,7 @@ app.get('/mgoup/v1/ping', (req, res) => {
 });
 
 /**
- * endpoint para gaurdar imagenes en la abse de datos
+ * endpoint para guardar imagenes en la base de datos
  */
 app.post('/mgoup/v1/uploadImg', (req, res) => {
   if(!req.body.imageData) {
@@ -31,12 +66,12 @@ app.post('/mgoup/v1/uploadImg', (req, res) => {
       message: 'collectionName is required'
     });
   }
- //save in db req.body.[..]
+    //save in db req.body.[..]
     var resp = midleware.insertDocumentChunks(req.body)
     if (resp.error){
       return res.status(500).send({
         success: 'false',
-        message: 'an error ',
+        message: 'an error ocurred',
         info : resp.error
       })
     }else{
