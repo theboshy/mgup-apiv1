@@ -1,1 +1,1 @@
-module.exports={tokenKey:".#>o86M` 3%f!9%PG ;Tc3(zX` MrD8-cw{ ^FPb847? g]E^*>%h k7P@rmmb m/HJ'nge {=PRY+;[ {~ojh~ge"} //secret key
+module.exports={tokenKey:".#>o86M` 3%f!9%PG ;Tc3(zX` MrD8-cw{ ^FPb847? g]E^*>%h k7P@rmmb m/HJ'nge {=PRY+;[ {~ojh~ge"} //secret key xd
